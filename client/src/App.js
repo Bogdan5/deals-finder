@@ -13,7 +13,6 @@ import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/Dashboard';
 
-import store from './store';
 import { setMousePosition } from './actions/usageActions';
 
 
@@ -36,7 +35,7 @@ class App extends Component {
   render() {
     const { registered } = this.state;
     return (
-      <Provider store={store}>
+      // <Provider store={store}>
         <div className="App" onClick={this.appClick}>
           <Nav variant="pills">
             <Nav.Item>
@@ -61,13 +60,13 @@ class App extends Component {
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
           </Switch>
         </div>
-      </Provider>
+      // </Provider>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setMousePosition: (mouseX, mouseY) => dispatch(setMousePosition(mouseX, mouseY))
+  setMousePosition: (mouseX, mouseY) => dispatch(setMousePosition(mouseX, mouseY)),
 });
 
 export default connect(mapDispatchToProps)(App);

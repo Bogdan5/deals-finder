@@ -83,7 +83,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log('Own props ', ownProps);
   // return bindActionCreators({registerUser}, dispatch);
   return ({
     registerUser: (user, history) => dispatch(registerUser(user, history)),

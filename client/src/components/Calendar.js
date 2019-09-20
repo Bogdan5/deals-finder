@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from 'net';
 
 class Calendar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       yearStart: new Date().getFullYear(),
       yearEnd: new Date().getFullYear(),
@@ -12,6 +13,7 @@ class Calendar extends Component {
       dayStart: new Date().getDay(),
       dayEnd: new Date().getDay(),
     };
+    console.log('Props in Calendar ', props);
   }
 
   monthName = (number) => {
@@ -102,4 +104,11 @@ class Calendar extends Component {
   }
 }
 
-export default Calendar;
+const mapStateToProps = (state) => {
+  console.log('State in Calendar ', state);
+  return {
+    usage: state.usage,
+  };
+};
+
+export default connect(mapStateToProps)(Calendar);
