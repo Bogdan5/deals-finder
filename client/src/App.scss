@@ -1,0 +1,52 @@
+// variables
+$darkgreen: rgb(20, 97, 67);
+
+//------------------------------------------------DASHBOARD----------------------------------------------------
+.titlesDashboard {
+  border: 1px solid $darkgreen;
+  border-radius: 2px;
+}
+
+.rowTitlesDashboard{
+  height: 10vh;
+}
+
+// ---------------------------------------------------FORMS----------------------------------------------------
+.Forms {
+  position: relative;
+}
+
+// ---------------------------------------------------CALENDAR--------------------------------------------------
+.Calendar {
+  display: table;
+  border: 1px solid red;
+  .calendarRow {
+    display: table-row;
+    border: 1px solid;
+    .calendarCell{
+      display: table-cell;
+      text-align: center;
+      padding: 0 5px;
+    }
+  }
+}
+
+input.calendarYearInput {
+  width: 40px;
+}
+
+input.calendarMonthInput {
+  width: 85px;
+}
+
+input.calendarDayInput {
+  width: 25px;
+}
+
+.calendarVisible {
+  display: block;
+}
+
+.calendarInvisible {
+  display: none;
+}
