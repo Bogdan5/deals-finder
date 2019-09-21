@@ -8,8 +8,9 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  switch (action) {
+  switch (action.type) {
     case SET_MOUSE_POSITION:
+      console.log('Click in reducer');
       return {
         ...state,
         mouseX: action.payload.mouseX,

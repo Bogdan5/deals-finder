@@ -28,8 +28,9 @@ class App extends Component {
   }
 
   appClick = (e) => {
+    console.log('Clicked ');
     this.setState({ mouseX: e.screenX, mouseY: e.screenY });
-    this.props.SetMousePosition(e.screenX, e.screenY);
+    this.props.setMousePosition(e.screenX, e.screenY);
   }
 
   render() {
@@ -69,4 +70,4 @@ const mapDispatchToProps = (dispatch) => ({
   setMousePosition: (mouseX, mouseY) => dispatch(setMousePosition(mouseX, mouseY)),
 });
 
-export default connect(mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

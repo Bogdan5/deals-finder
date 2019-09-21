@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect } from 'net';
+import { connect } from 'react-redux';
 
 class Calendar extends Component {
   constructor(props) {
@@ -14,6 +14,10 @@ class Calendar extends Component {
       dayEnd: new Date().getDay(),
     };
     console.log('Props in Calendar ', props);
+  }
+
+  componentDidMount() {
+    console.log('Calendar uploaded');
   }
 
   monthName = (number) => {
