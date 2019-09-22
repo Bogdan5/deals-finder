@@ -71,6 +71,7 @@ class Dashboard extends Component {
             </div>
           </Col>
         </Row>
+        <Forms />
       </Container>
     );
   }

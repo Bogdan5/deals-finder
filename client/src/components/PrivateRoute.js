@@ -6,17 +6,19 @@ import PropTypes from 'prop-types';
 const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
-    render={(props) => (auth.isAuthenticated === true ? (
-      <Component {...props} />
-    ) : (
-      <Redirect to="/users/login" />
-    ))}
+    render={async (props) => {
+      return (auth.isAuthenticated === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/users/login" />
+      ));
+    }}
   />
 );
 
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired,
-  component: PropTypes.element.isRequired,
+  // component: PropTypes.element.isRequired,
 };
 
 const mapStateToProps = (state) => ({

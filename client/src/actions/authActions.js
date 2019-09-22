@@ -30,7 +30,6 @@ export const registerUser = (userData, history) => (dispatch) => {
 
 // Login - get user token
 export const loginUser = (userData, history) => (dispatch) => {
-  console.log('Action login');
   axios
     .post('/users/login', userData)
     .then((res) => {
@@ -44,7 +43,6 @@ export const loginUser = (userData, history) => (dispatch) => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
-      console.log('Before redirect');
       history.push('/dashboard');
     })
     .catch((err) => {

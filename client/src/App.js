@@ -54,6 +54,11 @@ class App extends Component {
                 Register
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} eventKey="3" to="/dashboard">
+                Dashboard
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
           <Switch>
             <Route path="/users/register" component={Register} />

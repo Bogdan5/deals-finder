@@ -1,5 +1,5 @@
 import {
-  SET_MOUSE_POSITION
+  SET_MOUSE_POSITION,
 } from '../actions/types';
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_MOUSE_POSITION:
-      console.log('Click in reducer');
+      console.log('Click in reducer', action.payload.mouseX);
       return {
         ...state,
         mouseX: action.payload.mouseX,

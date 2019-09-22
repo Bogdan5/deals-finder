@@ -58,7 +58,7 @@ class Forms extends Component {
           </Form.Group>
         </Form>
         <Calendar type="Start" isVisible={isVisibleStart} />
-        <Calendar type="End" isVisible={isVisibleEnd}  />
+        <Calendar type="End" isVisible={isVisibleEnd} />
       </div>
     );
   }
