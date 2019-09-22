@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      yearStart: new Date().getFullYear(),
-      yearEnd: new Date().getFullYear(),
-      monthStart: this.monthName(new Date().getMonth()),
-      monthEnd: this.monthName(new Date().getMonth()),
-      dayStart: new Date().getDay(),
-      dayEnd: new Date().getDay(),
+      year: new Date().getFullYear(),
+      month: this.monthName(new Date().getMonth()),
+      day: new Date().getDay(),
     };
     console.log('Props in Calendar ', props);
   }
@@ -33,75 +31,81 @@ class Calendar extends Component {
 
   render() {
     const {
-      yearStart, yearEnd, monthStart, monthEnd, dayStart, dayEnd,
+      year, month, day,
     } = this.state;
     const { isVisible } = this.props;
     return (
-      <div className={`Calendar ${isVisible}`}>
-        <div className="calendarRow">
-          <div className="calendarCell" />
-          <div className="calendarCell">
-            <FontAwesomeIcon icon="chevron-up" />
+      <div className={`calendarContainer ${isVisible}`}>
+        <Button variant="secondary" onClick={this.submit}>Next Monday</Button>
+        <Button variant="secondary" onClick={this.submit}>Next Tuesday</Button>
+        <Button variant="secondary" onClick={this.submit}>Next Thursday</Button>
+        <Button variant="secondary" onClick={this.submit}>Next Friday</Button>
+        <div className="Calendar">
+          <div className="calendarRow">
+            <div className="calendarCell" />
+            <div className="calendarCell">
+              <FontAwesomeIcon icon="chevron-up" />
+            </div>
+            <div className="calendarCell" />
+            <div className="calendarCell">
+              <FontAwesomeIcon icon="chevron-up" />
+            </div>
+            <div className="calendarCell" />
+            <div className="calendarCell">
+              <FontAwesomeIcon icon="chevron-up" />
+            </div>
+            <div className="calendarCell" />
           </div>
-          <div className="calendarCell" />
-          <div className="calendarCell">
-            <FontAwesomeIcon icon="chevron-up" />
+          <div className="calendarRow">
+            <div className="calendarCell">
+              Year
+            </div>
+            <div className="calendarCell">
+              <input
+                className="calendarYearInput"
+                id="year"
+                onChange={this.handler}
+                value={year}
+              />
+            </div>
+            <div className="calendarCell">
+              Month
+            </div>
+            <div className="calendarCell">
+              <input
+                className="calendarMonthInput"
+                id="month"
+                onChange={this.handler}
+                value={month}
+              />
+            </div>
+            <div className="calendarCell">
+              Day
+            </div>
+            <div className="calendarCell">
+              <input
+                className="calendarDayInput"
+                id="day"
+                onChange={this.handler}
+                value={day}
+              />
+            </div>
           </div>
-          <div className="calendarCell" />
-          <div className="calendarCell">
-            <FontAwesomeIcon icon="chevron-up" />
+          <div className="calendarRow">
+            <div className="calendarCell" />
+            <div className="calendarCell">
+              <FontAwesomeIcon icon="chevron-down" />
+            </div>
+            <div className="calendarCell" />
+            <div className="calendarCell">
+              <FontAwesomeIcon icon="chevron-down" />
+            </div>
+            <div className="calendarCell" />
+            <div className="calendarCell">
+              <FontAwesomeIcon icon="chevron-down" />
+            </div>
+            <div className="calendarCell" />
           </div>
-          <div className="calendarCell" />
-        </div>
-        <div className="calendarRow">
-          <div className="calendarCell">
-            Year
-          </div>
-          <div className="calendarCell">
-            <input
-              className="calendarYearInput"
-              id="year"
-              onChange={this.handler}
-              value={yearStart}
-            />
-          </div>
-          <div className="calendarCell">
-            Month
-          </div>
-          <div className="calendarCell">
-            <input
-              className="calendarMonthInput"
-              id="month"
-              onChange={this.handler}
-              value={monthStart}
-            />
-          </div>
-          <div className="calendarCell">
-            Day
-          </div>
-          <div className="calendarCell">
-            <input
-              className="calendarDayInput"
-              id="day"
-              onChange={this.handler}
-              value={dayStart}
-            />
-          </div>
-        </div>
-        <div className="calendarRow">
-          <div className="calendarCell" />
-          <div className="calendarCell">
-            <FontAwesomeIcon icon="chevron-down" />
-          </div>
-          <div className="calendarCell" />
-          <div className="calendarCell">
-            <FontAwesomeIcon icon="chevron-down" />
-          </div>
-          <div className="calendarCell" />
-          <div className="calendarCell">
-            <FontAwesomeIcon icon="chevron-down" />
-          </div>
-          <div className="calendarCell" />
         </div>
       </div>
     );

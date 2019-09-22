@@ -1,5 +1,5 @@
 import {
-  SET_MOUSE_POSITION,
+  SET_MOUSE_POSITION, CALENDAR_BUTTON_CLICK,
 } from '../actions/types';
 
 const initialState = {
@@ -15,6 +15,11 @@ export default function (state = initialState, action) {
         ...state,
         mouseX: action.payload.mouseX,
         mouseY: action.payload.mouseY,
+      };
+    case CALENDAR_BUTTON_CLICK:
+      return {
+        ...state,
+        button: action.button,
       };
     default:
       return state;

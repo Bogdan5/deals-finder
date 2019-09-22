@@ -7,6 +7,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
     render={async (props) => {
+      // do an axios call to check authentification
       return (auth.isAuthenticated === true ? (
         <Component {...props} />
       ) : (

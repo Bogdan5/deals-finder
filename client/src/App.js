@@ -36,37 +36,35 @@ class App extends Component {
   render() {
     const { registered } = this.state;
     return (
-      // <Provider store={store}>
-        <div className="App" onClick={this.appClick}>
-          <Nav variant="pills">
-            <Nav.Item>
-              <Nav.Link as={Link} eventKey="1" to="/" exact="true">
-                Home
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} eventKey="2" active={registered} to="/users/login">
-                Login
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} eventKey="3" to="/users/register">
-                Register
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} eventKey="3" to="/dashboard">
-                Dashboard
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <Switch>
-            <Route path="/users/register" component={Register} />
-            <Route path="/users/login" component={Login} />
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          </Switch>
-        </div>
-      // </Provider>
+      <div className="App" onClick={this.appClick}>
+        <Nav variant="pills">
+          <Nav.Item>
+            <Nav.Link as={Link} eventKey="1" to="/" exact="true">
+              Home
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link as={Link} eventKey="2" active={registered} to="/users/login">
+              Login
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link as={Link} eventKey="3" to="/users/register">
+              Register
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link as={Link} eventKey="3" to="/dashboard">
+              Dashboard
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Switch>
+          <Route path="/users/register" component={Register} />
+          <Route path="/users/login" component={Login} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        </Switch>
+      </div>
     );
   }
 }

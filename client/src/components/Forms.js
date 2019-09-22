@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
 import { Collapse, Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import Calendar from './Calendar';
+import { typeButtonCalendar } from '../actions/usageActions';
+
 
 class Forms extends Component {
   constructor() {
     super();
     this.state = {
-      open: false,
-      isVisibleStart: false,
-      isVisibleEnd: false,
+
     };
   }
 
-  toggler = (e) => {
-
-  }
-
   visibilityHandler = (e) => {
-    this.setState({ [`isVisible${e.target.id}`]: true });
+    this.props.typeButtonCalendar(e.target.id);
   }
 
   render() {
-    const { isVisibleStart, isVisibleEnd } = this.state;
     return (
       <div className="Forms">
         <Form>
@@ -57,11 +53,15 @@ class Forms extends Component {
             <Form.Control type="text" placeholder="Type of product" />
           </Form.Group>
         </Form>
-        <Calendar type="Start" isVisible={isVisibleStart} />
-        <Calendar type="End" isVisible={isVisibleEnd} />
+        <Calendar type="start" isVisible={this.calendarVisibility} />
+        <Calendar type="end" isVisible={this.calendarVisibility} />
       </div>
     );
   }
 }
 
-export default Forms;
+const mapDispatchToProps = (dispatch) => ({
+  typeButtonCalendar: (type) => dispatch(typeButtonCalendar(type)),
+});
+
+export default connect(null, mapDispatchToProps)(Forms);
