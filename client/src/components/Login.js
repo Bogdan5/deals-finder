@@ -14,8 +14,6 @@ class Login extends Component {
       password: '',
     };
 
-    console.log('Props ', props);
-
     if (props.auth.isAuthenticated) {
       this.props.history.push('/dashboard'); // push user to dashboard when they login
     }

@@ -13,7 +13,7 @@ import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/Dashboard';
 
-import { setMousePosition } from './actions/usageActions';
+import { setMousePosition, typeButtonCalendar } from './actions/usageActions';
 
 
 class App extends Component {
@@ -28,9 +28,13 @@ class App extends Component {
   }
 
   appClick = (e) => {
+    const { visibility } = this.props;
     console.log('Clicked ');
-    this.setState({ mouseX: e.screenX, mouseY: e.screenY });
-    this.props.setMousePosition(e.screenX, e.screenY);
+    // this.setState({ mouseX: e.screenX, mouseY: e.screenY });
+    if (visibility.button.length > 0) {
+      setMousePosition(e.screenX, e.screenY);
+      typeButtonCalendar('');
+    }
   }
 
   render() {
@@ -69,8 +73,13 @@ class App extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setMousePosition: (mouseX, mouseY) => dispatch(setMousePosition(mouseX, mouseY)),
+const mapStateToProps = (state) => ({
+  visibility: state.visibility,
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  setMousePosition: (mouseX, mouseY) => dispatch(setMousePosition(mouseX, mouseY)),
+  typeButtonCalendar: (button) => dispatch(typeButtonCalendar(button)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

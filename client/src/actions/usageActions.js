@@ -11,5 +11,5 @@ export const setMousePosition = (mouseX, mouseY) => (dispatch) => (dispatch({
 
 export const typeButtonCalendar = (button) => (dispatch) => (dispatch({
   type: CALENDAR_BUTTON_CLICK,
-  button,
+  payload: button,
 }));

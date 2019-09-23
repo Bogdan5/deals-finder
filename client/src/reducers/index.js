@@ -6,5 +6,5 @@ import usageReducers from './usageReducers';
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
-  usage: usageReducers,
+  visibility: usageReducers,
 });

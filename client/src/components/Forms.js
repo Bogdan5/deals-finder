@@ -9,8 +9,18 @@ class Forms extends Component {
   constructor() {
     super();
     this.state = {
-
+      calendarVisible: '',
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.visibility.button !== this.props.visibility.button) {
+      if (prevProps.visibility.button !== '') {
+        this.setState({ calendarVisible: '' });
+      } else {
+        this.setState({ calendarVisible: this.props.visibility.button});
+      }
+    }
   }
 
   visibilityHandler = (e) => {
@@ -18,12 +28,13 @@ class Forms extends Component {
   }
 
   render() {
+    const { calendarVisible } = this.state;
     return (
       <div className="Forms">
         <Form>
           <Form.Group>
-            <Button variant="light" id="Start" onClick={this.visibilityHandler}>Starting from</Button>
-            <Button variant="light" id="End" onClick={this.visibilityHandler}>Ending on</Button>
+            <Button variant="light" id="start" onClick={this.visibilityHandler}>Starting from</Button>
+            <Button variant="light" id="end" onClick={this.visibilityHandler}>Ending on</Button>
           </Form.Group>
           <Form.Group>
             <Form.Label>Type of product</Form.Label>
@@ -53,15 +64,19 @@ class Forms extends Component {
             <Form.Control type="text" placeholder="Type of product" />
           </Form.Group>
         </Form>
-        <Calendar type="start" isVisible={this.calendarVisibility} />
-        <Calendar type="end" isVisible={this.calendarVisibility} />
+        <Calendar type="start" isVisible={calendarVisible === 'start'} />
+        <Calendar type="end" isVisible={calendarVisible === 'end'} />
       </div>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  typeButtonCalendar: (type) => dispatch(typeButtonCalendar(type)),
+const mapStateToProps = (state) => ({
+  visibility: state.visibility,
 });
 
-export default connect(null, mapDispatchToProps)(Forms);
+const mapDispatchToProps = (dispatch) => ({
+  typeButtonCalendar: (button) => dispatch(typeButtonCalendar(button)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Forms);

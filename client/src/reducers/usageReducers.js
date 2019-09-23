@@ -5,6 +5,7 @@ import {
 const initialState = {
   mouseX: 0,
   mouseY: 0,
+  button: '',
 };
 
 export default function (state = initialState, action) {
@@ -19,7 +20,7 @@ export default function (state = initialState, action) {
     case CALENDAR_BUTTON_CLICK:
       return {
         ...state,
-        button: action.button,
+        button: action.payload,
       };
     default:
       return state;
