@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Collapse, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import Calendar from './Calendar';
 import { typeButtonCalendar } from '../actions/usageActions';
 
 
 class Forms extends Component {
   constructor() {
     super();
+    this.calendarStartRef = React.createRef();
+    this.calendarEndRef = React.createRef();
     this.state = {
       calendarVisible: '',
     };
+  }
+
+  componentDidMount() {
+    this.setState({ height: })
   }
 
   componentDidUpdate(prevProps) {
@@ -24,6 +29,7 @@ class Forms extends Component {
   }
 
   visibilityHandler = (e) => {
+    console.log('Visibility handler ', e.target.id);
     this.props.typeButtonCalendar(e.target.id);
   }
 
@@ -33,8 +39,22 @@ class Forms extends Component {
       <div className="Forms">
         <Form>
           <Form.Group>
-            <Button variant="light" id="start" onClick={this.visibilityHandler}>Starting from</Button>
-            <Button variant="light" id="end" onClick={this.visibilityHandler}>Ending on</Button>
+            <Button
+              variant="light"
+              id="start"
+              onClick={this.visibilityHandler}
+              ref={this.calendarStartRef}
+            >
+              Starting from
+            </Button>
+            <Button
+              variant="light"
+              id="end"
+              onClick={this.visibilityHandler}
+              ref={this.calendarEndRef}
+            >
+              Ending on
+            </Button>
           </Form.Group>
           <Form.Group>
             <Form.Label>Type of product</Form.Label>
@@ -64,8 +84,6 @@ class Forms extends Component {
             <Form.Control type="text" placeholder="Type of product" />
           </Form.Group>
         </Form>
-        <Calendar type="start" isVisible={calendarVisible === 'start'} />
-        <Calendar type="end" isVisible={calendarVisible === 'end'} />
       </div>
     );
   }

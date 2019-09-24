@@ -33,15 +33,15 @@ class Dashboard extends Component {
       <Container>
         <Row className="rowTitlesDashboard">
           <Col
-            md={{ span: 5 }}
-            lg={{ span: 5 }}
+            md={{ span: 6 }}
+            lg={{ span: 6 }}
             className="titlesDashboard"
           >
             Add contribution
           </Col>
           <Col
-            md={{ span: 5, offset: 2 }}
-            lg={{ span: 5, offset: 2 }}
+            md={{ span: 5, offset: 1 }}
+            lg={{ span: 5, offset: 1 }}
             className="titlesDashboard"
           >
             Previous contributions
@@ -49,16 +49,17 @@ class Dashboard extends Component {
         </Row>
         <Row>
           <Col
-            lg={{ span: 5 }}
-            md={{ span: 5 }}
+            lg={{ span: 6 }}
+            md={{ span: 6 }}
             className="titlesDashboard"
           >
             <Link to="/addDeal">New offer</Link>
             <Link to="/addStore">New store</Link>
+            <Forms />
           </Col>
           <Col
-            md={{ span: 5, offset: 2 }}
-            lg={{ span: 5, offset: 2 }}
+            md={{ span: 5, offset: 1 }}
+            lg={{ span: 5, offset: 1 }}
             className="titlesDashboard"
           >
             <div>
@@ -71,7 +72,6 @@ class Dashboard extends Component {
             </div>
           </Col>
         </Row>
-        <Forms />
       </Container>
     );
   }
@@ -86,8 +86,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch) => {
+// const mapDispatchToProps = (dispatch) => {
 
-};
+// };
 
 export default connect(mapStateToProps)(Dashboard);

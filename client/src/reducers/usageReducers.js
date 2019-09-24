@@ -18,6 +18,7 @@ export default function (state = initialState, action) {
         mouseY: action.payload.mouseY,
       };
     case CALENDAR_BUTTON_CLICK:
+      console.log('Click in reducer cal btn click', action.payload);
       return {
         ...state,
         button: action.payload,
