@@ -31,7 +31,7 @@ class Forms extends Component {
     this.setState({ calendarVisible: e.target.type });
   }
 
-  closer = (type) => {
+  closer = () => {
     this.setState({ calendarVisible: '' });
   }
 

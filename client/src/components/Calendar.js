@@ -11,7 +11,7 @@ class Calendar extends Component {
       year: new Date().getFullYear(),
       month: this.monthName(new Date().getMonth()),
       day: new Date().getDay(),
-      isVisible: ' calendarInvisible',
+      isVisibleState: ' calendarInvisible',
     };
     console.log('Props in Calendar ', props);
   }
@@ -21,7 +21,9 @@ class Calendar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.visibility)
+    if (prevProps.isVisibleProps !== this.props.isVisibleProps) {
+      this.setState({ isVisibleState: this.state.isVisibleProps});
+    }
   }
 
   monthName = (number) => {
@@ -44,7 +46,7 @@ class Calendar extends Component {
     const calendarHeight = this.calendarRef.clientHeight;
     if (mousePositionX > (calendarLeft + calendarWidth) || mousePositionX < calendarLeft
       || mousePositionY > (calendarTop + calendarHeight) || mousePositionY < calendarTop) {
-      this.setState({ isVisible: ' calendarInvisible' });
+      this.setState({ isVisibleState: ' calendarInvisible' });
       this.props.closeCalendar(this.props.type)
     }
   }
@@ -58,7 +60,7 @@ class Calendar extends Component {
     const {
       year, month, day,
     } = this.state;
-    const { isVisible } = this.state;
+    const { isVisibleState } = this.state;
     return (
       <div
         className={`calendarWrapper ${isVisible}`}
