@@ -3,6 +3,8 @@ import { Collapse, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { typeButtonCalendar } from '../actions/usageActions';
 
+import Calendar from './Calendar';
+
 
 class Forms extends Component {
   constructor() {
@@ -12,10 +14,6 @@ class Forms extends Component {
     this.state = {
       calendarVisible: '',
     };
-  }
-
-  componentDidMount() {
-    this.setState({ height: })
   }
 
   componentDidUpdate(prevProps) {
@@ -30,7 +28,11 @@ class Forms extends Component {
 
   visibilityHandler = (e) => {
     console.log('Visibility handler ', e.target.id);
-    this.props.typeButtonCalendar(e.target.id);
+    this.setState({ calendarVisible: e.target.type });
+  }
+
+  closer = (type) => {
+    this.setState({ calendarVisible: '' });
   }
 
   render() {
@@ -84,6 +86,16 @@ class Forms extends Component {
             <Form.Control type="text" placeholder="Type of product" />
           </Form.Group>
         </Form>
+        <Calendar
+          type="start"
+          isVisible={(calendarVisible === 'start') ? '' : ' calendarInvisible'}
+          closeCalendar={this.closer}
+        />
+        <Calendar
+          type="end"
+          isVisible={(calendarVisible === 'end') ? '' : ' calendarInvisible'}
+          closeCalendar={this.closer}
+        />
       </div>
     );
   }

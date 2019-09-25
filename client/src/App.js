@@ -12,7 +12,6 @@ import Register from './components/Register';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/Dashboard';
-import Calendar from '.components/Calendar';
 
 import { setMousePosition, typeButtonCalendar } from './actions/usageActions';
 
@@ -28,22 +27,11 @@ class App extends Component {
     library.add(fab, faChevronUp, faChevronDown);
   }
 
-  appClick = (e) => {
-    const { visibility } = this.props;
-    console.log('Clicked ', `(${visibility.button})`);
-    // this.setState({ mouseX: e.screenX, mouseY: e.screenY });
-    if (visibility.button.length > 0) {
-      console.log('Clicked in consition');
-      setMousePosition(e.screenX, e.screenY);
-      typeButtonCalendar('');
-    }
-  }
-
   render() {
     const { registered } = this.state;
     console.log('Dashboard as prop ', Dashboard);
     return (
-      <div className="App" onClick={this.appClick}>
+      <div className="App">
         <Nav variant="pills">
           <Nav.Item>
             <Nav.Link as={Link} eventKey="1" to="/" exact="true">
@@ -66,8 +54,7 @@ class App extends Component {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <Calendar type="start" isVisible={(calendarVisible === 'start') ? '' : ' calendarInvisible'} />
-        <Calendar type="end" isVisible={(calendarVisible === 'end') ? '' : ' calendarInvisible'} />
+
         <Switch>
           <Route path="/users/register" component={Register} />
           <Route path="/users/login" component={Login} />
