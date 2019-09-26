@@ -11,6 +11,7 @@ import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Register from './components/Register';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
+import Calendar from './components/Calendar';
 import Dashboard from './components/Dashboard';
 
 import { setMousePosition, typeButtonCalendar } from './actions/usageActions';
@@ -54,6 +55,18 @@ class App extends Component {
             </Nav.Link>
           </Nav.Item>
         </Nav>
+        <Calendar
+          type="start"
+          isVisible={(calendarVisible === 'start') ? '' : ' calendarInvisible'}
+          closeCalendar={this.closer}
+          formPosition={{ formTop: this.state.formPositionX, formLeft: this.state.formPositionY }}
+        />
+        <Calendar
+          type="end"
+          isVisible={(calendarVisible === 'end') ? '' : ' calendarInvisible'}
+          formPosition={{ formTop: this.state.formPositionX, formLeft: this.state.formPositionY }}
+          closeCalendar={this.closer}
+        />
 
         <Switch>
           <Route path="/users/register" component={Register} />

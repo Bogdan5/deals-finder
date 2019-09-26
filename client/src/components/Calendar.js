@@ -17,12 +17,15 @@ class Calendar extends Component {
   }
 
   componentDidMount() {
-    console.log('Calendar uploaded');
+    console.log('Calendar uploaded', this.props.formPosition);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isVisibleProps !== this.props.isVisibleProps) {
-      this.setState({ isVisibleState: this.state.isVisibleProps});
+    console.log('Updated', prevProps);
+    console.log('Updated', this.props);
+    if (prevProps.isVisible !== this.props.isVisible) {
+      console.log('Update component ', this.props.isVisible);
+      this.setState({ isVisibleState: this.props.isVisible});
     }
   }
 
@@ -38,14 +41,18 @@ class Calendar extends Component {
   }
 
   wrapperClick = (e) => {
-    const mousePositionX = e.clientX;
-    const mousePositionY = e.clienty;
-    const calendarLeft = this.calendarRef.offsetLeft;
-    const calendarTop = this.calendarRef.offsetTop;
-    const calendarWidth = this.calendarRef.clientWidth;
-    const calendarHeight = this.calendarRef.clientHeight;
+    const { formPosition } = this.props;
+    const mousePositionX = e.clientX - formPosition.formLeft;
+    const mousePositionY = e.clienty - formPosition.formTop;
+    const calendarLeft = this.calendarRef.current.offsetLeft;
+    const calendarTop = this.calendarRef.current.offsetTop;
+    const calendarWidth = this.calendarRef.current.clientWidth;
+    const calendarHeight = this.calendarRef.current.clientHeight;
+    console.log('Position ', formPosition);
+    console.log('Calendar ', calendarWidth, calendarHeight, calendarLeft, calendarTop);
     if (mousePositionX > (calendarLeft + calendarWidth) || mousePositionX < calendarLeft
       || mousePositionY > (calendarTop + calendarHeight) || mousePositionY < calendarTop) {
+      console.log('click on wrapper');
       this.setState({ isVisibleState: ' calendarInvisible' });
       this.props.closeCalendar(this.props.type)
     }
@@ -58,17 +65,19 @@ class Calendar extends Component {
 
   render() {
     const {
-      year, month, day,
+      year, month, day, isVisibleState
     } = this.state;
-    const { isVisibleState } = this.state;
+    const { formPosition } = this.props;
     return (
       <div
-        className={`calendarWrapper ${isVisible}`}
+        className={`calendarWrapper${isVisibleState}`}
         onClick={this.wrapperClick}
         ref={this.calendarRef}
         onKeyDown={this.wrapperKeyDown}
         role="presentation"
+        style={{ marginLeft: 0 - formPosition.formLeft, marginTop: 0 - formPosition.formTop }}
       >
+        <p>{this.props.type}</p>
         <div className="calendarContainer">
           <Button variant="secondary" onClick={this.submit}>Next Monday</Button>
           <Button variant="secondary" onClick={this.submit}>Next Tuesday</Button>
@@ -142,16 +151,13 @@ class Calendar extends Component {
             </div>
           </div>
         </div>
-     </div>
+      </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log('State in Calendar ', state);
-  return {
-    usage: state.usage,
-  };
-};
+const mapDisplayToProps = (dispatch) => ({
+  
+});
 
-export default connect(mapStateToProps)(Calendar);
+export default connect(null, mapDispatchToProps)(Calendar);

@@ -3,9 +3,6 @@ import { Collapse, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { typeButtonCalendar } from '../actions/usageActions';
 
-import Calendar from './Calendar';
-
-
 class Forms extends Component {
   constructor() {
     super();
@@ -13,22 +10,23 @@ class Forms extends Component {
     this.calendarEndRef = React.createRef();
     this.state = {
       calendarVisible: '',
+      formPositionX: 0,
+      formPositionY: 0,
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.visibility.button !== this.props.visibility.button) {
-      if (prevProps.visibility.button !== '') {
-        this.setState({ calendarVisible: '' });
-      } else {
-        this.setState({ calendarVisible: this.props.visibility.button});
-      }
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.visibility.button !== this.props.visibility.button) {
+  //     if (prevProps.visibility.button !== '') {
+  //       this.setState({ calendarVisible: '' });
+  //     } else {
+  //       this.setState({ calendarVisible: this.props.visibility.button});
+  //     }
+  //   }
+  // }
 
   visibilityHandler = (e) => {
-    console.log('Visibility handler ', e.target.id);
-    this.setState({ calendarVisible: e.target.type });
+
   }
 
   closer = () => {
@@ -86,16 +84,6 @@ class Forms extends Component {
             <Form.Control type="text" placeholder="Type of product" />
           </Form.Group>
         </Form>
-        <Calendar
-          type="start"
-          isVisible={(calendarVisible === 'start') ? '' : ' calendarInvisible'}
-          closeCalendar={this.closer}
-        />
-        <Calendar
-          type="end"
-          isVisible={(calendarVisible === 'end') ? '' : ' calendarInvisible'}
-          closeCalendar={this.closer}
-        />
       </div>
     );
   }
