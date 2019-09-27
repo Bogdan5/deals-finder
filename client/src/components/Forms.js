@@ -9,9 +9,7 @@ class Forms extends Component {
     this.calendarStartRef = React.createRef();
     this.calendarEndRef = React.createRef();
     this.state = {
-      calendarVisible: '',
-      formPositionX: 0,
-      formPositionY: 0,
+
     };
   }
 
@@ -26,15 +24,10 @@ class Forms extends Component {
   // }
 
   visibilityHandler = (e) => {
-
-  }
-
-  closer = () => {
-    this.setState({ calendarVisible: '' });
+    this.props.typeButtonCalendar(e.target.id);
   }
 
   render() {
-    const { calendarVisible } = this.state;
     return (
       <div className="Forms">
         <Form>

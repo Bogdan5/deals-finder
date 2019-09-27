@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 
+import { typeButtonCalendar } from '../actions/usageActions';
+
 class Calendar extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,7 @@ class Calendar extends Component {
       year: new Date().getFullYear(),
       month: this.monthName(new Date().getMonth()),
       day: new Date().getDay(),
-      isVisibleState: ' calendarInvisible',
+      isVisible: ' calendarInvisible',
     };
     console.log('Props in Calendar ', props);
   }
@@ -21,11 +23,14 @@ class Calendar extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { type, visibility } = this.props;
+    const { button } = visibility;
     console.log('Updated', prevProps);
     console.log('Updated', this.props);
-    if (prevProps.isVisible !== this.props.isVisible) {
+    if (type === this.props.visibility.button && prevProps.visibility.button === ''
+      && prevProps.visibility.button !== this.props.visibility.button) {
       console.log('Update component ', this.props.isVisible);
-      this.setState({ isVisibleState: this.props.isVisible});
+      this.setState({ isVisible: '' });
     }
   }
 
@@ -37,24 +42,24 @@ class Calendar extends Component {
 
   handler = (e) => {
     const { type } = this.props;
-    this.setState({ [`${e.target.id}${type}`]: e.target.value });
+    const typeId = `${e.target.id}${type}`;
+    this.setState({ [typeId]: e.target.value });
   }
 
   wrapperClick = (e) => {
-    const { formPosition } = this.props;
-    const mousePositionX = e.clientX - formPosition.formLeft;
-    const mousePositionY = e.clienty - formPosition.formTop;
+    const mousePositionX = e.clientX;
+    const mousePositionY = e.clientY;
     const calendarLeft = this.calendarRef.current.offsetLeft;
     const calendarTop = this.calendarRef.current.offsetTop;
     const calendarWidth = this.calendarRef.current.clientWidth;
     const calendarHeight = this.calendarRef.current.clientHeight;
-    console.log('Position ', formPosition);
+    console.log('Position ', mousePositionX, mousePositionY);
     console.log('Calendar ', calendarWidth, calendarHeight, calendarLeft, calendarTop);
     if (mousePositionX > (calendarLeft + calendarWidth) || mousePositionX < calendarLeft
       || mousePositionY > (calendarTop + calendarHeight) || mousePositionY < calendarTop) {
       console.log('click on wrapper');
-      this.setState({ isVisibleState: ' calendarInvisible' });
-      this.props.closeCalendar(this.props.type)
+      this.setState({ isVisible: ' calendarInvisible' });
+      this.props.typeButtonCalendar('');
     }
   }
 
@@ -65,20 +70,18 @@ class Calendar extends Component {
 
   render() {
     const {
-      year, month, day, isVisibleState
+      year, month, day, isVisible,
     } = this.state;
     const { formPosition } = this.props;
     return (
       <div
-        className={`calendarWrapper${isVisibleState}`}
+        className={`calendarWrapper${isVisible}`}
         onClick={this.wrapperClick}
-        ref={this.calendarRef}
         onKeyDown={this.wrapperKeyDown}
         role="presentation"
-        style={{ marginLeft: 0 - formPosition.formLeft, marginTop: 0 - formPosition.formTop }}
       >
         <p>{this.props.type}</p>
-        <div className="calendarContainer">
+        <div className="calendarContainer" ref={this.calendarRef}>
           <Button variant="secondary" onClick={this.submit}>Next Monday</Button>
           <Button variant="secondary" onClick={this.submit}>Next Tuesday</Button>
           <Button variant="secondary" onClick={this.submit}>Next Thursday</Button>
@@ -156,8 +159,12 @@ class Calendar extends Component {
   }
 }
 
-const mapDisplayToProps = (dispatch) => ({
-  
+const mapStateToProps = (state) => ({
+  visibility: state.visibility,
 });
 
-export default connect(null, mapDispatchToProps)(Calendar);
+const mapDispatchToProps = (dispatch) => ({
+  typeButtonCalendar: (button) => dispatch(typeButtonCalendar(button)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

@@ -55,18 +55,8 @@ class App extends Component {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <Calendar
-          type="start"
-          isVisible={(calendarVisible === 'start') ? '' : ' calendarInvisible'}
-          closeCalendar={this.closer}
-          formPosition={{ formTop: this.state.formPositionX, formLeft: this.state.formPositionY }}
-        />
-        <Calendar
-          type="end"
-          isVisible={(calendarVisible === 'end') ? '' : ' calendarInvisible'}
-          formPosition={{ formTop: this.state.formPositionX, formLeft: this.state.formPositionY }}
-          closeCalendar={this.closer}
-        />
+        <Calendar type="start" />
+        <Calendar type="end" />
 
         <Switch>
           <Route path="/users/register" component={Register} />
@@ -78,13 +68,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  visibility: state.visibility,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setMousePosition: (mouseX, mouseY) => dispatch(setMousePosition(mouseX, mouseY)),
-  typeButtonCalendar: (button) => dispatch(typeButtonCalendar(button)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
