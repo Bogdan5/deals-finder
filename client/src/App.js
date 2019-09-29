@@ -30,7 +30,6 @@ class App extends Component {
 
   render() {
     const { registered } = this.state;
-    console.log('Dashboard as prop ', Dashboard);
     return (
       <div className="App">
         <Nav variant="pills">

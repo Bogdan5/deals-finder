@@ -30,21 +30,21 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     const { deals } = this.state;
     return (
-      <Container>
+      <Container className="dashboardContainer">
         <Row className="rowTitlesDashboard">
           <Col
             md={{ span: 6 }}
             lg={{ span: 6 }}
             className="titlesDashboard"
           >
-            Add contribution
+            <h3>Add contribution</h3>
           </Col>
           <Col
             md={{ span: 5, offset: 1 }}
             lg={{ span: 5, offset: 1 }}
             className="titlesDashboard"
           >
-            Previous contributions
+            <h3>Previous contributions</h3>
           </Col>
         </Row>
         <Row>
@@ -53,8 +53,6 @@ class Dashboard extends Component {
             md={{ span: 6 }}
             className="titlesDashboard"
           >
-            <Link to="/addDeal">New offer</Link>
-            <Link to="/addStore">New store</Link>
             <Forms />
           </Col>
           <Col

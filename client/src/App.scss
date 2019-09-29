@@ -2,15 +2,20 @@
 $darkgreen: rgb(20, 97, 67);
 
 .App {
-  background-color: red;
+  background-color: rgb(211, 221, 205);
   height: 100vh;
   position: relative;
 }
 
 //------------------------------------------------DASHBOARD----------------------------------------------------
+.dashboardContainer {
+  margin-top: 5vh;
+}
+
 .titlesDashboard {
-  border: 1px solid $darkgreen;
-  border-radius: 2px;
+  // border: 1px solid $darkgreen;
+  // border-radius: 2px;
+  // font-size: 25px;
 }
 
 .rowTitlesDashboard{
@@ -19,21 +24,49 @@ $darkgreen: rgb(20, 97, 67);
 
 // ---------------------------------------------------FORMS----------------------------------------------------
 
+.formCalendarButton {
+  margin-right: 20px;
+}
 
 // ---------------------------------------------------CALENDAR--------------------------------------------------
 .calendarWrapper {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: aqua;
   height: 100vh;
   width: 100vw;
   z-index: 5;
+  box-sizing: border-box;
+}
+
+.calendarContainer {
+  background-color: rgb(115, 117, 115);
+  border-radius: 3px;
+  width: 370px;
+}
+
+// next buttons
+.calendarNextButtonsRow {
+  display: table;
+  width: 370px;
+  .calendarNextButton{
+    display: table-cell;
+    padding: 3px;
+    font-size: 14px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 2px;
+    &:hover {
+      background-color: rgb(88, 86, 86);
+      border: 1px solid;
+      cursor: pointer;
+    }
+  }
 }
 
 .Calendar {
   display: table;
-  border: 1px solid red;
+  width: 370px;
   .calendarRow {
     display: table-row;
     border: 1px solid;
@@ -45,6 +78,7 @@ $darkgreen: rgb(20, 97, 67);
   }
 }
 
+// the input fields in Calendar
 input.calendarYearInput {
   width: 40px;
 }
@@ -57,11 +91,7 @@ input.calendarDayInput {
   width: 25px;
 }
 
-.calendarVisible {
-  display: block;
-}
-
 .calendarInvisible {
   display: none;
-  background-color: aqua;
 }
+

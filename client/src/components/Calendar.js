@@ -14,23 +14,24 @@ class Calendar extends Component {
       month: this.monthName(new Date().getMonth()),
       day: new Date().getDay(),
       isVisible: ' calendarInvisible',
+      positionCalendarX: 0,
+      positionCalendarY: 0,
     };
-    console.log('Props in Calendar ', props);
-  }
-
-  componentDidMount() {
-    console.log('Calendar uploaded', this.props.formPosition);
   }
 
   componentDidUpdate(prevProps) {
+    console.log('Visibility ', this.props.visibility);
     const { type, visibility } = this.props;
-    const { button } = visibility;
-    console.log('Updated', prevProps);
-    console.log('Updated', this.props);
+    const { button, vertical, horizontal } = visibility;
     if (type === this.props.visibility.button && prevProps.visibility.button === ''
       && prevProps.visibility.button !== this.props.visibility.button) {
-      console.log('Update component ', this.props.isVisible);
-      this.setState({ isVisible: '' });
+      // const _offsets = this.getGlobalOffset(this.calendarRef);
+      // console.log('Offsets ', _offsets);
+      this.setState({
+        isVisible: '',
+        positionCalendarX: horizontal,
+        positionCalendarY: vertical,
+      });
     }
   }
 
@@ -53,8 +54,6 @@ class Calendar extends Component {
     const calendarTop = this.calendarRef.current.offsetTop;
     const calendarWidth = this.calendarRef.current.clientWidth;
     const calendarHeight = this.calendarRef.current.clientHeight;
-    console.log('Position ', mousePositionX, mousePositionY);
-    console.log('Calendar ', calendarWidth, calendarHeight, calendarLeft, calendarTop);
     if (mousePositionX > (calendarLeft + calendarWidth) || mousePositionX < calendarLeft
       || mousePositionY > (calendarTop + calendarHeight) || mousePositionY < calendarTop) {
       console.log('click on wrapper');
@@ -63,16 +62,43 @@ class Calendar extends Component {
     }
   }
 
-  weapperKeyDown = (e) => {
+  wrapperKeyDown = (e) => {
     // if keyacode is tilde, then close
     console.log('key down');
   }
 
+  getGlobalOffset = (_el) => {
+    const target = _el;
+    const target_width = target.offsetWidth;
+    const target_height = target.offsetHeight;
+    const target_left = target.offsetLeft;
+    const target_top = target.offsetTop;
+    let gleft = 0;
+    let gtop = 0;
+    let rect = {};
+
+    const moonwalk = (_parent) => {
+      if (!!_parent) {
+        gleft += _parent.offsetLeft;
+        gtop += _parent.offsetTop;
+        moonwalk(_parent.offsetParent);
+      } else {
+        rect = {
+          top: target.offsetTop + gtop,
+          left: target.offsetLeft + gleft,
+          bottom: (target.offsetTop + gtop) + target_height,
+          right: (target.offsetLeft + gleft) + target_width,
+        };
+      }
+    };
+    moonwalk( target.offsetParent );
+    return rect;
+  }
+
   render() {
     const {
-      year, month, day, isVisible,
+      year, month, day, isVisible, positionCalendarX, positionCalendarY,
     } = this.state;
-    const { formPosition } = this.props;
     return (
       <div
         className={`calendarWrapper${isVisible}`}
@@ -80,12 +106,17 @@ class Calendar extends Component {
         onKeyDown={this.wrapperKeyDown}
         role="presentation"
       >
-        <p>{this.props.type}</p>
-        <div className="calendarContainer" ref={this.calendarRef}>
-          <Button variant="secondary" onClick={this.submit}>Next Monday</Button>
-          <Button variant="secondary" onClick={this.submit}>Next Tuesday</Button>
-          <Button variant="secondary" onClick={this.submit}>Next Thursday</Button>
-          <Button variant="secondary" onClick={this.submit}>Next Friday</Button>
+        <div
+          className="calendarContainer"
+          ref={this.calendarRef}
+          style={{ marginLeft: positionCalendarX, marginTop: positionCalendarY }}
+        >
+          <div className="calendarNextButtonsRow">
+            <div className="calendarNextButton">Next Monday</div>
+            <div className="calendarNextButton">Next Tuesday</div>
+            <div className="calendarNextButton">Next Thursday</div>
+            <div className="calendarNextButton">Next Friday</div>
+          </div>
           <div className="Calendar">
             <div className="calendarRow">
               <div className="calendarCell" />
@@ -139,7 +170,7 @@ class Calendar extends Component {
             </div>
             <div className="calendarRow">
               <div className="calendarCell" />
-              <div className="calendarCell">
+              <div className="calendarCell" onClick={this.increase}>
                 <FontAwesomeIcon icon="chevron-down" />
               </div>
               <div className="calendarCell" />
@@ -154,6 +185,7 @@ class Calendar extends Component {
             </div>
           </div>
         </div>
+        <p>{this.props.type}</p>
       </div>
     );
   }

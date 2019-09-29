@@ -6,25 +6,51 @@ import { typeButtonCalendar } from '../actions/usageActions';
 class Forms extends Component {
   constructor() {
     super();
-    this.calendarStartRef = React.createRef();
-    this.calendarEndRef = React.createRef();
+    this.startCalendarRef = React.createRef();
+    this.endCalendarRef = React.createRef();
     this.state = {
 
     };
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.visibility.button !== this.props.visibility.button) {
-  //     if (prevProps.visibility.button !== '') {
-  //       this.setState({ calendarVisible: '' });
-  //     } else {
-  //       this.setState({ calendarVisible: this.props.visibility.button});
-  //     }
-  //   }
-  // }
-
   visibilityHandler = (e) => {
-    this.props.typeButtonCalendar(e.target.id);
+    let _offsets;
+    const heightButton = this.startCalendarRef.current.offsetHeight;
+    if (e.target.id === 'start') {
+      _offsets = this.getGlobalOffset(this.startCalendarRef.current);
+    } else {
+      _offsets = this.getGlobalOffset(this.endCalendarRef.current);
+    }
+    this.props.typeButtonCalendar(e.target.id, _offsets.left,
+      _offsets.top + heightButton);
+  }
+
+  getGlobalOffset = (_el) => {
+    const target = _el;
+    const target_width = target.offsetWidth;
+    const target_height = target.offsetHeight;
+    const target_left = target.offsetLeft;
+    const target_top = target.offsetTop;
+    let gleft = 0;
+    let gtop = 0;
+    let rect = {};
+
+    const moonwalk = (_parent) => {
+      if (!!_parent) {
+        gleft += _parent.offsetLeft;
+        gtop += _parent.offsetTop;
+        moonwalk(_parent.offsetParent);
+      } else {
+        rect = {
+          top: target.offsetTop + gtop,
+          left: target.offsetLeft + gleft,
+          bottom: (target.offsetTop + gtop) + target_height,
+          right: (target.offsetLeft + gleft) + target_width,
+        };
+      }
+    };
+    moonwalk(target.offsetParent);
+    return rect;
   }
 
   render() {
@@ -36,7 +62,8 @@ class Forms extends Component {
               variant="light"
               id="start"
               onClick={this.visibilityHandler}
-              ref={this.calendarStartRef}
+              ref={this.startCalendarRef}
+              className="formCalendarButton"
             >
               Starting from
             </Button>
@@ -44,7 +71,7 @@ class Forms extends Component {
               variant="light"
               id="end"
               onClick={this.visibilityHandler}
-              ref={this.calendarEndRef}
+              ref={this.endCalendarRef}
             >
               Ending on
             </Button>
@@ -87,7 +114,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  typeButtonCalendar: (button) => dispatch(typeButtonCalendar(button)),
+  typeButtonCalendar:
+    (button, horizontal, vertical) => dispatch(typeButtonCalendar(button, horizontal, vertical)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Forms);

@@ -11,10 +11,10 @@ export const setMousePosition = (mouseX, mouseY) => (dispatch) => {
 };
 
 
-export const typeButtonCalendar = (button) => (dispatch) => {
+export const typeButtonCalendar = (button, horizontal, vertical) => (dispatch) => {
   console.log('Reducer ', button);
   return dispatch({
     type: CALENDAR_BUTTON_CLICK,
-    payload: button,
+    payload: { button, horizontal, vertical },
   });
 };

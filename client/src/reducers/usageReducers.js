@@ -21,7 +21,9 @@ export default function (state = initialState, action) {
       console.log('Click in reducer cal btn click', action.payload);
       return {
         ...state,
-        button: action.payload,
+        button: action.payload.button,
+        horizontal: action.payload.horizontal,
+        vertical: action.payload.vertical,
       };
     default:
       return state;
