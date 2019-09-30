@@ -11,8 +11,8 @@ class Calendar extends Component {
     this.calendarRef = React.createRef();
     this.state = {
       year: new Date().getFullYear(),
-      month: this.monthName(new Date().getMonth()),
-      day: new Date().getDay(),
+      month: new Date().getMonth(),
+      day: new Date().getDate(),
       isVisible: ' calendarInvisible',
       positionCalendarX: 0,
       positionCalendarY: 0,
@@ -37,7 +37,7 @@ class Calendar extends Component {
 
   monthName = (number) => {
     const names = ['January', 'February', 'March', 'April', 'May',
-      'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      'June', 'July', 'August', 'September', 'October', 'November', 'December', ''];
     return names[number];
   }
 
@@ -45,6 +45,26 @@ class Calendar extends Component {
     const { type } = this.props;
     const typeId = `${e.target.id}${type}`;
     this.setState({ [typeId]: e.target.value });
+  }
+
+  handlerMonth = (e) => {
+    const _month = e.target.value.toLowerCase();
+    const _names = ['january', 'february', 'march', 'april', 'may',
+      'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+    const _arrayFits = _names.filter((el) => el.match(_month));
+    switch (_arrayFits.length) {
+      case 1:
+        this.setState({ month: _names.indexOf(_arrayFits) });
+        break;
+      case 0:
+        this.setState({ month: new Date().getMonth() });
+        break;
+      default:
+    }
+  }
+
+  clickMonth = () => {
+    this.setState({ month: 12 });
   }
 
   wrapperClick = (e) => {
@@ -93,6 +113,65 @@ class Calendar extends Component {
     };
     moonwalk( target.offsetParent );
     return rect;
+  }
+
+  increaseYear = () => {
+    const { year } = this.state;
+    this.setState({ year: year + 1 });
+  }
+
+  decreaseYear = () => {
+    const { year } = this.state;
+    this.setState({ year: year - 1 });
+  }
+
+  increaseMonth = () => {
+    const { month } = this.state;
+    if (month === 11) {
+      this.setState({ month: 0 });
+    } else {
+      this.setState({ month: month + 1 });
+    }
+  }
+
+  decreaseMonth = () => {
+    const { month } = this.state;
+    if (month === 0) {
+      this.setState({ month: 11 });
+    } else {
+      this.setState({ month: month - 1 });
+    }
+  }
+
+  increaseDay = () => {
+    const { day, month, year } = this.state;
+    if ((day === 30 && [3, 5, 8, 10].includes(month))
+      || (day === 31 && [0, 2, 4, 6, 7, 9, 11].includes(month))
+      || (day === 29 && month === 2 && year % 4 === 0)
+      || (day === 28 && month === 2 && year % 4 > 0)) {
+      this.setState({ day: 0 });
+    } else {
+      this.setState({ day: day + 1 });
+    }
+  }
+
+  decreaseDay = () => {
+    const { day, month, year } = this.state;
+    if (day === 0) {
+      if ([4, 6, 9, 11].includes(month)) {
+        this.setState({ day: 30 });
+      } else if (month === 1) {
+        if (year % 4 === 0) {
+          this.setState({ day: 29 });
+        } else {
+          this.setState({ day: 28 });
+        }
+      } else {
+        this.setState({ day: 31 });
+      }
+    } else {
+      this.setState({ day: day - 1 });
+    }
   }
 
   render() {
@@ -152,8 +231,9 @@ class Calendar extends Component {
                 <input
                   className="calendarMonthInput"
                   id="month"
-                  onChange={this.handler}
-                  value={month}
+                  onChange={this.handlerMonth}
+                  onClick={this.clickMonth}
+                  value={this.monthName(month)}
                 />
               </div>
               <div className="calendarCell">
@@ -170,7 +250,7 @@ class Calendar extends Component {
             </div>
             <div className="calendarRow">
               <div className="calendarCell" />
-              <div className="calendarCell" onClick={this.increase}>
+              <div className="calendarCell" onClick={this.increaseYear}>
                 <FontAwesomeIcon icon="chevron-down" />
               </div>
               <div className="calendarCell" />
