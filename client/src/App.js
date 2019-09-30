@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect, Provider } from 'react-redux';
 // import axios from 'axios';
 import { Switch, Route, Link } from 'react-router-dom';
 import './App.scss';
@@ -14,16 +13,12 @@ import PrivateRoute from './components/PrivateRoute';
 import Calendar from './components/Calendar';
 import Dashboard from './components/Dashboard';
 
-import { setMousePosition, typeButtonCalendar } from './actions/usageActions';
-
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       registered: false,
-      mouseX: 0,
-      mouseY: 0,
     };
     library.add(fab, faChevronUp, faChevronDown);
   }

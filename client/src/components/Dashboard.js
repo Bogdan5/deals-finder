@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+// import axios from 'axios';
 
-import { logoutUser } from '../actions/authActions';
+// import { logoutUser } from '../actions/authActions';
 import Forms from './Forms';
 
 class Dashboard extends Component {

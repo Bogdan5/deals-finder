@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
 
 import { typeButtonCalendar } from '../actions/usageActions';
 
@@ -20,11 +19,10 @@ class Calendar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('Visibility ', this.props.visibility);
     const { type, visibility } = this.props;
     const { button, vertical, horizontal } = visibility;
     if (type === this.props.visibility.button && prevProps.visibility.button === ''
-      && prevProps.visibility.button !== this.props.visibility.button) {
+      && prevProps.visibility.button !== button) {
       // const _offsets = this.getGlobalOffset(this.calendarRef);
       // console.log('Offsets ', _offsets);
       this.setState({
@@ -37,7 +35,7 @@ class Calendar extends Component {
 
   monthName = (number) => {
     const names = ['January', 'February', 'March', 'April', 'May',
-      'June', 'July', 'August', 'September', 'October', 'November', 'December', ''];
+      'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return names[number];
   }
 
@@ -63,9 +61,9 @@ class Calendar extends Component {
     }
   }
 
-  clickMonth = () => {
-    this.setState({ month: 12 });
-  }
+  // clickMonth = () => {
+  //   this.setState({ month: 12 });
+  // }
 
   wrapperClick = (e) => {
     const mousePositionX = e.clientX;
@@ -117,10 +115,12 @@ class Calendar extends Component {
 
   increaseYear = () => {
     const { year } = this.state;
+    console.log('IncreaseYear');
     this.setState({ year: year + 1 });
   }
 
   decreaseYear = () => {
+    console.log('DecreaseYear');
     const { year } = this.state;
     this.setState({ year: year - 1 });
   }
@@ -149,15 +149,17 @@ class Calendar extends Component {
       || (day === 31 && [0, 2, 4, 6, 7, 9, 11].includes(month))
       || (day === 29 && month === 2 && year % 4 === 0)
       || (day === 28 && month === 2 && year % 4 > 0)) {
-      this.setState({ day: 0 });
+        console.log('Increase day ', day, month);
+      this.setState({ day: 1 });
     } else {
-      this.setState({ day: day + 1 });
+        console.log('Increase day ', day, month);
+        this.setState({ day: day + 1 });
     }
   }
 
   decreaseDay = () => {
     const { day, month, year } = this.state;
-    if (day === 0) {
+    if (day === 1) {
       if ([4, 6, 9, 11].includes(month)) {
         this.setState({ day: 30 });
       } else if (month === 1) {
@@ -199,15 +201,15 @@ class Calendar extends Component {
           <div className="Calendar">
             <div className="calendarRow">
               <div className="calendarCell" />
-              <div className="calendarCell">
+              <div className="calendarCell" onClick={this.increaseYear}>
                 <FontAwesomeIcon icon="chevron-up" />
               </div>
               <div className="calendarCell" />
-              <div className="calendarCell">
+              <div className="calendarCell" onClick={this.increaseMonth}>
                 <FontAwesomeIcon icon="chevron-up" />
               </div>
               <div className="calendarCell" />
-              <div className="calendarCell">
+              <div className="calendarCell" onClick={this.increaseDay}>
                 <FontAwesomeIcon icon="chevron-up" />
               </div>
               <div className="calendarCell" />
@@ -250,15 +252,15 @@ class Calendar extends Component {
             </div>
             <div className="calendarRow">
               <div className="calendarCell" />
-              <div className="calendarCell" onClick={this.increaseYear}>
+              <div className="calendarCell" onClick={this.decreaseYear}>
                 <FontAwesomeIcon icon="chevron-down" />
               </div>
               <div className="calendarCell" />
-              <div className="calendarCell">
+              <div className="calendarCell" onClick={this.decreaseMonth}>
                 <FontAwesomeIcon icon="chevron-down" />
               </div>
               <div className="calendarCell" />
-              <div className="calendarCell">
+              <div className="calendarCell" onClick={this.decreaseDay}>
                 <FontAwesomeIcon icon="chevron-down" />
               </div>
               <div className="calendarCell" />

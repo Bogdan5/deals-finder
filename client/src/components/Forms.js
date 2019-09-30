@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Form, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { typeButtonCalendar } from '../actions/usageActions';
 
