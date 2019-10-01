@@ -66,6 +66,8 @@ class Calendar extends Component {
   // }
 
   wrapperClick = (e) => {
+    const { year, month, day } = this.state;
+    const data = { year, month, day };
     const mousePositionX = e.clientX;
     const mousePositionY = e.clientY;
     const calendarLeft = this.calendarRef.current.offsetLeft;
@@ -77,6 +79,7 @@ class Calendar extends Component {
       console.log('click on wrapper');
       this.setState({ isVisible: ' calendarInvisible' });
       this.props.typeButtonCalendar('');
+      this.props.transmitCalendarData(data);
     }
   }
 

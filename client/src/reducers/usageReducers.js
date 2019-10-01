@@ -1,5 +1,5 @@
 import {
-  SET_MOUSE_POSITION, CALENDAR_BUTTON_CLICK,
+  SET_MOUSE_POSITION, CALENDAR_BUTTON_CLICK, RECORD_CALENDAR_DATA,
 } from '../actions/types';
 
 const initialState = {
@@ -22,6 +22,11 @@ export default function (state = initialState, action) {
         button: action.payload.button,
         horizontal: action.payload.horizontal,
         vertical: action.payload.vertical,
+      };
+    case RECORD_CALENDAR_DATA:
+      return {
+        ...state,
+        data: action.payload.data,
       };
     default:
       return state;
