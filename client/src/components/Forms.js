@@ -9,7 +9,7 @@ class Forms extends Component {
     this.startCalendarRef = React.createRef();
     this.endCalendarRef = React.createRef();
     this.state = {
-
+      autocompVisibility: ' invisible',
     };
   }
 
@@ -23,6 +23,11 @@ class Forms extends Component {
     }
     this.props.typeButtonCalendar(e.target.id, _offsets.left,
       _offsets.top + heightButton);
+  }
+
+  inputHandler = (e) => {
+    const val = e.current.value;
+    
   }
 
   getGlobalOffset = (_el) => {
@@ -54,6 +59,7 @@ class Forms extends Component {
   }
 
   render() {
+    const { autocompVisibility } = this.state;
     return (
       <div className="Forms">
         <Form>
@@ -104,6 +110,7 @@ class Forms extends Component {
             <Form.Control type="text" placeholder="Type of product" />
           </Form.Group>
         </Form>
+        <div className={`formsAutocomplete${autocompVisibility}`} />
       </div>
     );
   }

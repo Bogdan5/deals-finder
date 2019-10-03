@@ -12,7 +12,7 @@ class Calendar extends Component {
       year: new Date().getFullYear(),
       month: new Date().getMonth(),
       day: new Date().getDate(),
-      isVisible: ' calendarInvisible',
+      isVisible: ' invisible',
       positionCalendarX: 0,
       positionCalendarY: 0,
     };
@@ -77,7 +77,7 @@ class Calendar extends Component {
     if (mousePositionX > (calendarLeft + calendarWidth) || mousePositionX < calendarLeft
       || mousePositionY > (calendarTop + calendarHeight) || mousePositionY < calendarTop) {
       console.log('click on wrapper');
-      this.setState({ isVisible: ' calendarInvisible' });
+      this.setState({ isVisible: ' invisible' });
       this.props.typeButtonCalendar('');
       this.props.transmitCalendarData(data);
     }

@@ -24,8 +24,17 @@ $darkgreen: rgb(20, 97, 67);
 
 // ---------------------------------------------------FORMS----------------------------------------------------
 
+.Forms {
+  position: relative;
+}
+
 .formCalendarButton {
   margin-right: 20px;
+}
+
+.formsAutocomplete {
+  position: absolute;
+  height: 100px;
 }
 
 // ---------------------------------------------------CALENDAR--------------------------------------------------
@@ -91,7 +100,7 @@ input.calendarDayInput {
   width: 25px;
 }
 
-.calendarInvisible {
+.invisible {
   display: none;
 }
 
