@@ -25,9 +25,42 @@ class Forms extends Component {
       _offsets.top + heightButton);
   }
 
+  throttle = (fn, wait) => {
+    var lastFunc;
+    var lastRan;
+    return function () {
+      var context = this;
+      var args = arguments;
+      if (!lastRan) {
+        fn.apply(context, args);
+        lastRan = Date.now();
+      } else {
+        clearTimeout(lastFunc);
+        lastFunc = setTimeout(() => {
+          if ((Date.now() - lastRan) >= wait) {
+            fn.apply(context, args);
+            lastRan = Date.now();
+          }
+        }, wait - (Date.now() - lastRan));
+      }
+    };
+  };
+  
+  debounce = (fn, wait) => {
+    var timeout;
+    return function () {
+      var args = arguments;
+      var context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        fn.apply(context, args);
+      }, wait);
+    };
+  };
+
   inputHandler = (e) => {
-    const val = e.current.value;
-    
+    const currentVal = e.current.value;
+
   }
 
   getGlobalOffset = (_el) => {
