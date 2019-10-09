@@ -11,6 +11,7 @@ class Forms extends Component {
     this.state = {
       autocompVisibility: ' invisible',
       brand: '',
+      autocomplete: [],
     };
   }
 
@@ -27,11 +28,10 @@ class Forms extends Component {
   }
 
   throttle = (fn, wait) => {
-    var lastFunc;
-    var lastRan;
-    return function () {
-      var context = this;
-      var args = arguments;
+    let lastFunc;
+    let lastRan;
+    return (...args) => {
+      const context = this;
       if (!lastRan) {
         fn.apply(context, args);
         lastRan = Date.now();
@@ -46,12 +46,11 @@ class Forms extends Component {
       }
     };
   };
-  
+
   debounce = (fn, wait) => {
-    var timeout;
-    return function () {
-      var args = arguments;
-      var context = this;
+    let timeout;
+    return (...args) => {
+      const context = this;
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         fn.apply(context, args);
@@ -59,17 +58,16 @@ class Forms extends Component {
     };
   };
 
-  inputHandler = (e) => {
+  inputHandler = () => {
     let currentSearch;
     let previousSearch;
-    let cache = {};
-    let request;
+    const cache = {};
     const handleResponse = (searchTerm, searchResults) => {
       // ensure we're dealing with the latest search term so that
       // we don't mistakenly update our suggestions element in the wrong order
       if (currentSearch === searchTerm) {
         // do something with search results here for e.g.
-        
+        this.setState({ autocomplete: searchTerm });
       }
     };
 
@@ -86,37 +84,18 @@ class Forms extends Component {
         if (currentSearch in cache) {
           handleResponse(currentSearch, cache[currentSearch]);
         } else {
-          // check if there is an in-flight request, if so, abort it
-          if (request) {
-            request.abort();
-          }
           // start a new http request for auto suggest results
-          request = new XMLHttpRequest();
-
-          request.open('GET', 'https://api.host.com/v1/autosuggest?q=' + currentSearch, true);
-
-          request.onreadystatechange = function () {
-            if (request.readyState === 4) {
-              if (request.status === 200) {
-                // if we get a result back, set the cache
-                cache[currentSearch] = request.responseText;
-                handleResponse(currentSearch, request.responseText);
-              }
-              // clear the request variable
-              request = null;
-            }
-          };
 
           // send the request
-          request.send();
+
         }
       }
     };
 
-    var throttledSearch = throttle(handleSearch, 500);
-    var debouncedSearch = debounce(handleSearch, 500);
+    const throttledSearch = this.throttle(handleSearch, 500);
+    const debouncedSearch = this.debounce(handleSearch, 500);
 
-    return (event) => {
+    return (e) => {
       const input = e.target.value;
 
       // if this is a valid input to trigger a search...
@@ -124,7 +103,6 @@ class Forms extends Component {
       if (input.length > 1 || (input.length === 1 && /\S/.test(input))) {
         // if the input is short or ends with a space
         if (input.length < 5 || / $/.test(input)) {
-
           // throttle - display the results eagerly
           throttledSearch(input);
         } else {
@@ -164,7 +142,7 @@ class Forms extends Component {
   }
 
   render() {
-    const { autocompVisibility } = this.state;
+    const { autocompVisibility, autocomplete, } = this.state;
     return (
       <div className="Forms">
         <Form>
@@ -204,7 +182,7 @@ class Forms extends Component {
               type="text"
               placeholder="Product brand"
               id="brand"
-              onChange={this.inputHandler}
+              onChange={this.inputHandler()}
             />
           </Form.Group>
           <Form.Group>
@@ -221,7 +199,7 @@ class Forms extends Component {
           </Form.Group>
         </Form>
         <div className={`formsAutocomplete${autocompVisibility}`}>
-
+          {autocomplete.map((elem) => (<p>{elem}</p>))}
         </div>
       </div>
     );
