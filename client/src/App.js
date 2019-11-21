@@ -12,19 +12,42 @@ import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import Calendar from './components/Calendar';
 import Dashboard from './components/Dashboard';
+import axios from 'axios';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      registered: false,
+      authenticated: false,
+      username: null,
+      userID: null,
     };
     library.add(fab, faChevronUp, faChevronDown);
   }
 
+  componentDidMount = () => {
+    const bearer = `Bearer ${localStorage.getItem('token')}`;
+    const conf = {
+      headers: { 'Authorization': bearer },
+    };
+    // tests if the user is signed in - if not, redirects to sign in
+    axios.get('/test', conf)
+      .then((res) => {
+        this.setState({
+          authenticated: true,
+          username: res.data.username,
+          userID: res.data._id,
+        });
+      })
+      .catch((err) => {
+        console.log('Error:', err.response.status);
+        this.setState({ authenticated: false });
+      });
+  }
+
   render() {
-    const { registered } = this.state;
+    const { authenticated } = this.state;
     return (
       <div className="App">
         <Nav variant="pills">
@@ -34,7 +57,7 @@ class App extends Component {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link as={Link} eventKey="2" active={registered} to="/users/login">
+            <Nav.Link as={Link} eventKey="2" active={authenticated} to="/users/login">
               Login
             </Nav.Link>
           </Nav.Item>

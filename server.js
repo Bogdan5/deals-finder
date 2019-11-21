@@ -20,6 +20,7 @@ app.use(morgan('tiny'));
 
 // routes
 app.use('/users', users);
+app.use('/test', test);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

@@ -79,7 +79,7 @@ class Calendar extends Component {
       console.log('click on wrapper');
       this.setState({ isVisible: ' invisible' });
       this.props.typeButtonCalendar('');
-      this.props.transmitCalendarData(data);
+      // this.props.transmitCalendarData(data);
     }
   }
 
