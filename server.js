@@ -4,6 +4,7 @@ const morgan = require('morgan');
 require('custom-env').env();
 
 const users = require('./routes/api/users');
+const test = require('./routes/api/test');
 
 const app = express();
 
