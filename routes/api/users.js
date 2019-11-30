@@ -7,9 +7,9 @@ const router = express.Router();
 
 require('custom-env').env();
 
-const pool = new Pool({
-  connectionString: process.env.connectionString,
-});
+// const pool = new Pool({
+//   connectionString: process.env.connectionString,
+// });
 
 // Load input validation
 const validateRegisterInput = require('../../validation/register');
