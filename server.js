@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const passport = require("passport");
+// const passport = require("passport");
 require('custom-env').env();
 
 const users = require('./routes/api/users');
@@ -24,10 +24,6 @@ app.use(morgan('tiny'));
 app.use('/users', users);
 app.use('/test', test);
 
-// Passport middleware
-app.use(passport.initialize());
-// Passport config
-require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 

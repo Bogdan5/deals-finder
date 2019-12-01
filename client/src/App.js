@@ -34,6 +34,7 @@ class App extends Component {
     // tests if the user is signed in - if not, redirects to sign in
     axios.get('/test', conf)
       .then((res) => {
+        console.log('Get test called');
         this.setState({
           authenticated: true,
           username: res.data.username,

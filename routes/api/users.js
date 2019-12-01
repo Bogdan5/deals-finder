@@ -2,14 +2,15 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Pool } = require('pg');
+// const db = require('../../database/queryHelper');
 
 const router = express.Router();
 
 require('custom-env').env();
 
-// const pool = new Pool({
-//   connectionString: process.env.connectionString,
-// });
+const pool = new Pool({
+  connectionString: process.env.connectionString,
+});
 
 // Load input validation
 const validateRegisterInput = require('../../validation/register');
@@ -17,6 +18,7 @@ const validateLoginInput = require('../../validation/login');
 
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
+  const { username, email, password } = req.body;
   console.log('Register');
   // Check validation
   if (!isValid) {
@@ -85,6 +87,7 @@ router.post('/login', (req, res) => {
     console.log('Is not valid');
     return res.status(400).json(errors);
   }
+  
   // Find user by email
   pool.connect((err, client, done) => {
     if (err) {

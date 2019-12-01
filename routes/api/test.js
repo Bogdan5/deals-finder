@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const jwt = require('jsonwebtoken');
+const Auth = require('../../authentication/authenticate');
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ const pool = new Pool({
   connectionString: process.env.connectionString,
 });
 
-router.get('/', (req, res, next) => {
+router.get('/', Auth.verifyToken, (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const tokenPayload =  jwt.verify(token, process.env.secretOrKey);
     pool.connect((err, client, done) => {
