@@ -27,12 +27,17 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    const bearer = `Bearer ${localStorage.getItem('token')}`;
-    const conf = {
-      headers: { 'Authorization': bearer },
-    };
+    // const token = localStorage.getItem('jwtToken');
+    // if (!token) {
+
+    // }
+    // const bearer = `Bearer ${localStorage.getItem('jwtToken')}`;
+    // console.log('Bearer in App ', bearer);
+    // const conf = {
+    //   headers: { 'Authorization': bearer },
+    // };
     // tests if the user is signed in - if not, redirects to sign in
-    axios.get('/test', conf)
+    axios.get('/test')
       .then((res) => {
         console.log('Get test called');
         this.setState({

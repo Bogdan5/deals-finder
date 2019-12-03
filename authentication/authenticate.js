@@ -16,11 +16,10 @@ const Auth = {
    * @returns {object|void} response object 
    */
   async verifyToken(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
-    console.log('Req.headers ', req.headers.authorization);
-    console.log('Token in authenticate is ', token);
+    console.log('Headers ', req.headers);
+    const token = req.headers.authorization;
+    console.log('Token is ', token);
     if(!token) {
-      console.log('Token not provided');
       return res.status(400).send({ 'message': 'Token is not provided' });
     }
     try {
