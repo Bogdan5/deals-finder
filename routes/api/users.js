@@ -32,8 +32,6 @@ router.post('/register', (req, res) => {
     } else {
       // check if email already used
 
-      // client.query('DELETE FROM users WHERE date>1', (err, res) =>{console.log('Deleted', res)});
-
       client.query('SELECT * FROM users WHERE username=$1 OR email = $2', [username, email],
         (error, result) => {
           if (error) {
