@@ -8,6 +8,8 @@ const router = express.Router();
 
 require('custom-env').env();
 
+const { createAccessToken, createRefreshToken } = require('../../authentication/tokens');
+
 const pool = new Pool({
   connectionString: process.env.connectionString,
 });
@@ -115,22 +117,10 @@ router.post('/login', (req, res) => {
                 id: result.rows[0].id,
                 name: result.rows[0].name,
               };
-              // Sign token
-              jwt.sign(
-                payload,
-                process.env.secretOrKey,
-                {
-                  expiresIn: 31556926, // 1 year in seconds
-                },
-                (err, token) => {
-                  res
-                    .status(200)
-                    .json({
-                      success: true,
-                      token: `Bearer ${token}`,
-                    });
-                }
-              );
+              const accessToken = createAccessToken(username);
+              const refreshToken = createRefreshToken(username);
+              // Save the refresh token in the database
+              
             } else {
               console.log('Is not match', isMatch);
               return res
