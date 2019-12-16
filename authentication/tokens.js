@@ -1,10 +1,10 @@
 const { sign } = require('jsonwebtoken');
 
-const createAccessToken = (username) => sign({ username }, process.env.accessSecretOrKey, {
+const createAccessToken = (user_id) => sign({ user_id }, process.env.accessSecretOrKey, {
   expiresIn: '15m'
 });
 
-const createRefreshToken = (username) => sign({ username }, process.env.refreshSecretOrKey, {
+const createRefreshToken = (user_id) => sign({ user_id }, process.env.refreshSecretOrKey, {
   expiresIn: '7d'
 });
 
@@ -18,4 +18,4 @@ const sendRefreshToken = (req, res, refreshToken) => res.cookie('refreshToken', 
   path: '/refresh_token'
 });
 
-module.export = { createAccessToken, createRefreshToken, sendAccessToken, sendRefreshToken };
+module.exports = { createAccessToken, createRefreshToken, sendAccessToken, sendRefreshToken };

@@ -8,7 +8,7 @@ const router = express.Router();
 
 require('custom-env').env();
 
-const { createAccessToken, createRefreshToken } = require('../../authentication/tokens');
+const { createAccessToken, createRefreshToken, sendAccessToken, sendRefreshToken } = require('../../authentication/tokens');
 
 const pool = new Pool({
   connectionString: process.env.connectionString,
@@ -107,20 +107,22 @@ router.post('/login', (req, res) => {
             console.log('User not found');
             return res.status(404).json({ usernotfound: 'User not found' });
           }
+          const user = result.rows[0];
           // Check password
-          await bcrypt.compare(password, result.rows[0].password.trim()).then((isMatch) => {
+          await bcrypt.compare(password, user.password.trim()).then((isMatch) => {
             if (isMatch) {
               console.log('Is match', isMatch);
-              // User matched
-              // Create JWT Payload
-              const payload = {
-                id: result.rows[0].id,
-                name: result.rows[0].name,
-              };
-              const accessToken = createAccessToken(username);
-              const refreshToken = createRefreshToken(username);
-              // Save the refresh token in the database
               
+              const accessToken = createAccessToken(user.user_id);
+              const refreshToken = createRefreshToken(user.user_id);
+              // Save the refresh token in the database
+
+              
+
+              // Send the access and the refresh token to the client
+              sendAccessToken(req, res, accessToken);
+              sendRefreshToken(res, refreshToken);
+
             } else {
               console.log('Is not match', isMatch);
               return res
@@ -131,6 +133,11 @@ router.post('/login', (req, res) => {
         });
     }
   });
+});
+
+router.post('/logout', (res, res) => {
+  res.clearCookie('refreshtoken', { path: '/refresh_token' });
+  return res.send({ message: 'Logged out!' });
 });
 
 module.exports = router;
