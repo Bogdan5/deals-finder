@@ -117,7 +117,7 @@ router.post('/login', (req, res) => {
               const refreshToken = createRefreshToken(user.user_id);
               // Save the refresh token in the database
 
-              
+
 
               // Send the access and the refresh token to the client
               sendAccessToken(req, res, accessToken);
@@ -136,8 +136,48 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/logout', (res, res) => {
-  res.clearCookie('refreshtoken', { path: '/refresh_token' });
+  res.clearCookie('refreshToken', { path: '/refresh_token' });
   return res.send({ message: 'Logged out!' });
+});
+
+//get a new accesstoken with a refresh token
+router.post('/refresh_token', (req, res) => {
+  const token = res.cookies.refreshToken;
+  if (!token === null) return res.send({ accessToken: '' });
+  let payload = null;
+  try {
+    payload = verify(token, process.env.refreshSecretOrKey);
+  } catch(err) {
+    res.send({ accessToken: '' });
+  }
+
+  // token is valid, so check if user exists in the database
+  pool.connect((err, client, done) => {
+    if (err) {
+      console.error('Database connection failed', err);
+    } else {
+      client.query('SELECT * FROM users WHERE username=$1', [payload.userId],
+        async (error, result) => {
+          if (error) {
+            console.error('Error in connection selecting ', error);
+            return res.status(400).send(err);
+          }
+          if (result.rows.length === 0) {
+            const user = result.rows[0];
+            return res.send({ accessToken: '' });            
+          }
+          // User exists, find if it has a refresh token
+          if (user.refreshToken !== token) {
+            return res.send({ accessToken: '' });
+          }
+          // Token exists, create new Access and Refresh token
+          const accessToken = createAccessToken(user.user_id);
+          const refreshToken = createRefreshToken(user.user_id);
+          // Update the refreshtoken in the database
+          client.query('UPDATE users SET')
+      });
+    }
+  });
 });
 
 module.exports = router;
