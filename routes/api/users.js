@@ -33,24 +33,21 @@ router.post('/register', (req, res) => {
       console.error('Database connection failed', err);
     } else {
       // check if email already used
-
       client.query('SELECT * FROM users WHERE username=$1 OR email = $2', [username, email],
-        (error, result) => {
-          if (error) {
-            console.error('Error in connection selecting ', error);
-            return res.status(400).send(err);
+        (err1, result) => {
+          if (err1) {
+            console.error('Error in connection selecting ', err1);
+            return res.status(400).send(err1);
           }
           console.log('One', result.rows);
           if (result.rows.length === 0) {
-            // bcrypt.genSalt(10, (errr, salt) => {
-            bcrypt.hash(password, 10, (erro, hash) => {
-              // console.log('Hash in register is ', salt);
-              if (erro) throw erro;
+            bcrypt.hash(password, 10, (err2, hash) => {
+              if (err2) throw err2;
               client.query('INSERT INTO users (username, email, password, date) VALUES ($1, $2, $3, $4)',
-                [username, email, hash, Date.now()], async (err2, reslt) => {
-                  if (error) {
-                    console.error('Error in connection inserting ', err2);
-                    return res.status(400).send(err2);
+                [username, email, hash, Date.now()], async (err3, result1) => {
+                  if (err3) {
+                    console.error('Error in connection inserting ', err3);
+                    return res.status(400).send(err3);
                   }
 
                   // await client.query('SELECT * FROM users WHERE username=$1', [username],
@@ -174,7 +171,12 @@ router.post('/refresh_token', (req, res) => {
           const accessToken = createAccessToken(user.user_id);
           const refreshToken = createRefreshToken(user.user_id);
           // Update the refreshtoken in the database
-          client.query('UPDATE users SET')
+          client.query('UPDATE users SET reshresh_token=$1 WHERE user_id=$2', [refreshToken, user.user_id],
+            (err, result) => {
+              if (err) (err) => res.status(400).send(err);
+            });
+          sendRefreshToken(res, refreshToken);
+          return res.send({ accessToken });
       });
     }
   });
